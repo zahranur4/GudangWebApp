@@ -1,8 +1,13 @@
-﻿@{
+﻿@model List<GudangWebApp.Models.Barang>
+
+@{
     ViewData["Title"] = "Daftar Barang";
 }
+
 <h2>@ViewData["Title"]</h2>
-<p>Ini adalah halaman awal untuk modul manajemen barang gudang.</p>
+
+<a asp-action="Create" class="btn btn-primary mb-3">Tambah Barang</a>
+
 <table class="table table-bordered">
     <thead class="table-dark">
         <tr>
@@ -13,17 +18,14 @@
         </tr>
     </thead>
     <tbody>
-        <tr>
-            <td>BRG001</td>
-            <td>Box Kardus</td>
-            <td>120</td>
-            <td>Kemasan</td>
-        </tr>
-        <tr>
-            <td>BRG002</td>
-            <td>Scanner Barcode</td>
-            <td>20</td>
-            <td>Elektronik</td>
-        </tr>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.KodeBarang</td>
+                <td>@item.NamaBarang</td>
+                <td>@item.JumlahStok</td>
+                <td>@item.Kategori</td>
+            </tr>
+        }
     </tbody>
 </table>

@@ -1,0 +1,41 @@
+﻿@model GudangWebApp.Models.Barang
+@{
+    ViewData["Title"] = "Tambah Barang";
+}
+
+<h2>@ViewData["Title"]</h2>
+<hr />
+<div class="row">
+    <div class="col-md-6">
+        <form asp-action="Create">
+            <div class="form-group mb-2">
+                <label asp-for="KodeBarang" class="form-label"></label>
+                <input asp-for="KodeBarang" class="form-control" />
+                <span asp-validation-for="KodeBarang" class="text-danger"></span>
+            </div>
+            <div class="form-group mb-2">
+                <label asp-for="NamaBarang" class="form-label"></label>
+                <input asp-for="NamaBarang" class="form-control" />
+                <span asp-validation-for="NamaBarang" class="text-danger"></span>
+            </div>
+            <div class="form-group mb-2">
+                <label asp-for="JumlahStok" class="form-label"></label>
+                <input asp-for="JumlahStok" class="form-control" type="number" />
+                <span asp-validation-for="JumlahStok" class="text-danger"></span>
+            </div>
+            <div class="form-group mb-3">
+                <label asp-for="Kategori" class="form-label"></label>
+                <input asp-for="Kategori" class="form-control" />
+                <span asp-validation-for="Kategori" class="text-danger"></span>
+            </div>
+            <button type="submit" class="btn btn-primary">Simpan</button>
+            <a asp-action="Index" class="btn btn-secondary">Kembali</a>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
