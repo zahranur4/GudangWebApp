@@ -1,5 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using GudangWebApp.Models; // Pastikan using ini ada
+﻿using GudangWebApp.Models;
+using GudangWebApp.ViewModels; // Wajib ada agar BarangViewModel terbaca
+using Microsoft.AspNetCore.Mvc;
 
 namespace GudangWebApp.Controllers
 {
@@ -7,33 +8,86 @@ namespace GudangWebApp.Controllers
     {
         private readonly ApplicationDbContext _context;
 
-        // Constructor Injection untuk mengambil akses database
         public BarangController(ApplicationDbContext context)
         {
             _context = context;
         }
 
-        // Menampilkan daftar barang
+        // 1. READ: Menampilkan daftar barang
         public IActionResult Index()
         {
             var data = _context.Barang.ToList();
             return View(data);
         }
 
-        // Menampilkan form tambah barang
+        // 2. CREATE: Menampilkan form tambah (GET)
         public IActionResult Create() => View();
 
-        // Memproses data yang dikirim dari form (POST)
+        // 2. CREATE: Memproses data (POST) - Gunakan Versi ViewModel (Sesuai Bab 10)
         [HttpPost]
-        public IActionResult Create(Barang barang)
+        public IActionResult Create(BarangViewModel vm)
         {
             if (ModelState.IsValid)
             {
-                _context.Barang.Add(barang); // Menambah data ke memory
-                _context.SaveChanges();      // Menyimpan ke database
+                // Pindahkan data dari ViewModel ke Model asli
+                var barang = new Barang
+                {
+                    KodeBarang = vm.KodeBarang,
+                    NamaBarang = vm.NamaBarang,
+                    JumlahStok = vm.JumlahStok,
+                    Kategori = vm.Kategori
+                };
+
+                _context.Barang.Add(barang);
+                _context.SaveChanges();
+                return RedirectToAction("Index");
+            }
+
+            // Jika validasi gagal, kembalikan ke form
+            return View(vm);
+        }
+
+        // 3. EDIT: Menampilkan Form Edit (GET)
+        public IActionResult Edit(int id)
+        {
+            var barang = _context.Barang.Find(id);
+            if (barang == null) return NotFound();
+            return View(barang);
+        }
+
+        // 3. EDIT: Memproses Update Data (POST)
+        // Untuk Edit, kita pakai Model asli saja biar cepat (kecuali modul minta lain)
+        [HttpPost]
+        public IActionResult Edit(Barang barang)
+        {
+            if (ModelState.IsValid)
+            {
+                _context.Barang.Update(barang);
+                _context.SaveChanges();
                 return RedirectToAction("Index");
             }
             return View(barang);
+        }
+
+        // 4. DELETE: Menampilkan Halaman Konfirmasi (GET)
+        public IActionResult Delete(int id)
+        {
+            var barang = _context.Barang.Find(id);
+            if (barang == null) return NotFound();
+            return View(barang);
+        }
+
+        // 4. DELETE: Hapus Data Permanen (POST)
+        [HttpPost, ActionName("Delete")]
+        public IActionResult DeleteConfirmed(int id)
+        {
+            var barang = _context.Barang.Find(id);
+            if (barang != null)
+            {
+                _context.Barang.Remove(barang);
+                _context.SaveChanges();
+            }
+            return RedirectToAction("Index");
         }
     }
 }

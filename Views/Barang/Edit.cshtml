@@ -1,38 +1,39 @@
-﻿@model GudangWebApp.ViewModels.BarangViewModel
+﻿@model GudangWebApp.Models.Barang
 
 @{
-    ViewData["Title"] = "Tambah Barang";
+    ViewData["Title"] = "Edit Barang";
 }
 
 <div class="container mt-4">
-    <div class="card shadow-sm">
-        <div class="card-header bg-success text-white">
-            <h4 class="mb-0">Tambah Barang</h4>
-        </div>
-        <div class="card-body">
-            <form asp-action="Create" method="post">
+    <h2>Edit Barang</h2>
+    <hr />
+    <div class="row">
+        <div class="col-md-6">
+            <form asp-action="Edit">
+                <input type="hidden" asp-for="Id" />
+
                 <div class="mb-3">
-                    <label asp-for="KodeBarang" class="form-label fw-bold"></label>
+                    <label asp-for="KodeBarang" class="form-label"></label>
                     <input asp-for="KodeBarang" class="form-control" />
                     <span asp-validation-for="KodeBarang" class="text-danger"></span>
                 </div>
                 <div class="mb-3">
-                    <label asp-for="NamaBarang" class="form-label fw-bold"></label>
+                    <label asp-for="NamaBarang" class="form-label"></label>
                     <input asp-for="NamaBarang" class="form-control" />
                     <span asp-validation-for="NamaBarang" class="text-danger"></span>
                 </div>
                 <div class="mb-3">
-                    <label asp-for="JumlahStok" class="form-label fw-bold"></label>
+                    <label asp-for="JumlahStok" class="form-label"></label>
                     <input asp-for="JumlahStok" class="form-control" type="number" />
                     <span asp-validation-for="JumlahStok" class="text-danger"></span>
                 </div>
                 <div class="mb-3">
-                    <label asp-for="Kategori" class="form-label fw-bold"></label>
+                    <label asp-for="Kategori" class="form-label"></label>
                     <input asp-for="Kategori" class="form-control" />
                     <span asp-validation-for="Kategori" class="text-danger"></span>
                 </div>
 
-                <button type="submit" class="btn btn-primary">Simpan</button>
+                <button type="submit" class="btn btn-warning">Simpan Perubahan</button>
                 <a asp-action="Index" class="btn btn-secondary">Batal</a>
             </form>
         </div>
